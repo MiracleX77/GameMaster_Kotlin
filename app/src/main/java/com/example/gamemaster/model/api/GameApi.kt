@@ -25,4 +25,15 @@ object GameApi {
         val response: HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
     }
+    suspend fun  getGamesByPlatform(query :String): List<Game>{
+        val url = "$BASE_URL?platform=$query"
+        val response:HttpResponse = apiClient.get(url)
+        return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
+    }
+
+    suspend fun getGamesByTags(query: String): List<Game>{
+        val url = "$BASE_URL?category=$query"
+        val response:HttpResponse = apiClient.get(url)
+        return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
+    }
 }

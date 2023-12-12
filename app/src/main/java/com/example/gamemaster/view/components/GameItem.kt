@@ -22,6 +22,7 @@ fun GameItem(game: Game) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
+
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = game.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)

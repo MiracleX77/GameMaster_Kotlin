@@ -63,6 +63,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
+    implementation ("me.saket.cascade:cascade:2.0.0-rc01")
+    implementation ("me.saket.cascade:cascade-compose:2.0.0-rc01")
+
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
     implementation("io.ktor:ktor-client-serialization:1.6.0")

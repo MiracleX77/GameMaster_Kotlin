@@ -1,37 +1,50 @@
 package com.example.gamemaster.view
 
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import android.annotation.SuppressLint
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import com.example.gamemaster.view.components.GameItem
 import com.example.gamemaster.viewmodel.GameViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gamemaster.view.components.FilteredComponents
 import com.example.gamemaster.view.components.LoadingComponent
 import com.example.gamemaster.view.components.SuccessComponent
+import com.example.gamemaster.view.components.TopAppBar
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewState
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun GameListScreen(viewModel: GameViewModel = viewModel()) {
-    // สังเกต LiveData และแปลงเป็น State
     val viewState by viewModel.viewState.observeAsState()
 
-    when (val state = viewState){
-        is GameViewState.Loading -> LoadingComponent()
-        is GameViewState.Success -> {
-            val games = state.games
-            SuccessComponent(games = games)
+    Scaffold(
+        topBar = {
+            TopAppBar()
         }
-        is GameViewState.Empty -> EmptyScreen()
-        is GameViewState.Error -> ErrorScreen(message = state.message)
-        else -> {}
+    ) {
+        when (val state = viewState) {
+            is GameViewState.Loading -> LoadingComponent()
+            is GameViewState.Success -> {
+                val games = state.games
+                SuccessComponent(viewModel,games = games)
+            }
+            is GameViewState.FilteredGames -> {
+                val filteredGames = state.filteredGames
+                FilteredComponents(viewModel,games = filteredGames)
+            }
+            is GameViewState.Empty -> EmptyScreen()
+            is GameViewState.Error -> ErrorScreen(message = state.message)
+            else -> {}
+        }
     }
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.processIntent(GameViewIntent.LoadAllGame)
     }
 }
