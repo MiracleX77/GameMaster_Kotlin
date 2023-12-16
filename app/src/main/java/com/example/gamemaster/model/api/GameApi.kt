@@ -1,6 +1,7 @@
 package com.example.gamemaster.model.api
 
 import com.example.gamemaster.model.data.Game
+import com.example.gamemaster.model.data.GameDetail
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -12,7 +13,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
 object GameApi {
-    private const val BASE_URL = "https://www.freetogame.com/api/games"
+    private const val BASE_URL = "https://www.freetogame.com/api/game"
 
     private val apiClient = HttpClient(Android){
         install(ContentNegotiation){
@@ -21,19 +22,25 @@ object GameApi {
     }
 
     suspend fun getAllGame(): List<Game>{
-        val url = BASE_URL
+        val url = BASE_URL +"s"
         val response: HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
     }
     suspend fun  getGamesByPlatform(query :String): List<Game>{
-        val url = "$BASE_URL?platform=$query"
+        val url = BASE_URL+"s?platform=$query"
         val response:HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
     }
 
     suspend fun getGamesByTags(query: String): List<Game>{
-        val url = "$BASE_URL?category=$query"
+        val url = BASE_URL+"s?category=$query"
         val response:HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
+    }
+
+    suspend fun getGameById(id: String): GameDetail {
+        val url = "$BASE_URL?id=$id"
+        val response: HttpResponse = apiClient.get(url)
+        return Json.decodeFromString(GameDetail.serializer(), response.bodyAsText())
     }
 }

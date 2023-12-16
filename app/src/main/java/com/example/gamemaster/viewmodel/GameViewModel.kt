@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gamemaster.model.api.GameApi
 import com.example.gamemaster.model.data.Game
+import com.example.gamemaster.model.data.GameDetail
 import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
@@ -19,6 +20,7 @@ class GameViewModel : ViewModel() {
             is GameViewIntent.LoadAllGame -> loadGames()
             is GameViewIntent.SearchGame -> searchGames(intent.query)
             is GameViewIntent.FilterGame -> filterGames(intent.type,intent.query)
+            is GameViewIntent.DetailGame -> detailGame(intent.id)
         }
     }
 
@@ -64,7 +66,7 @@ class GameViewModel : ViewModel() {
                     }
                 }
                 if( type == "tags") {
-                    var filteredGames = GameApi.getGamesByTags(query)
+                    val filteredGames = GameApi.getGamesByTags(query)
                     if (filteredGames.isEmpty()) {
                         _viewState.value = GameViewState.Empty
                     } else {
@@ -77,5 +79,18 @@ class GameViewModel : ViewModel() {
             }
         }
 
+    }
+
+    private fun detailGame(game_id:String) {
+        viewModelScope.launch {
+            try {
+                _viewState.value = GameViewState.Loading
+                val gameDetail = GameApi.getGameById(game_id)
+                _viewState.value = GameViewState.DetailGames(gameDetail)
+                // อัปเดต state ตามข้อมูลที่ได้
+            } catch (e: Exception) {
+                _viewState.value = GameViewState.Error(e.message ?: "Unknown error")
+            }
+        }
     }
 }

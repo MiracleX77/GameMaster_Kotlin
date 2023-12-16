@@ -36,7 +36,7 @@ fun SuccessComponent(viewModel: GameViewModel,games: List<Game>) {
     Column {
         Spacer(Modifier.height(70.dp))
         SearchAndFilterBar(viewModel = viewModel)
-        GameList(games = games)
+        GameList(games = games,viewModel = viewModel)
     }
 }
 

@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import com.example.gamemaster.viewmodel.GameViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gamemaster.view.components.FilteredComponents
+import com.example.gamemaster.view.components.GameDetail
 import com.example.gamemaster.view.components.LoadingComponent
 import com.example.gamemaster.view.components.SuccessComponent
 import com.example.gamemaster.view.components.TopAppBar
@@ -26,7 +26,7 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
 
     Scaffold(
         topBar = {
-            TopAppBar()
+            /*TopAppBar()*/
         }
     ) {
         when (val state = viewState) {
@@ -37,7 +37,11 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
             }
             is GameViewState.FilteredGames -> {
                 val filteredGames = state.filteredGames
-                FilteredComponents(viewModel,games = filteredGames)
+                SuccessComponent(viewModel,games = filteredGames)
+            }
+            is GameViewState.DetailGames->{
+                val gameDetail = state.game
+                GameDetail(viewModel = viewModel, game_detail = gameDetail)
             }
             is GameViewState.Empty -> EmptyScreen()
             is GameViewState.Error -> ErrorScreen(message = state.message)
