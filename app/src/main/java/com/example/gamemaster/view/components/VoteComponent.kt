@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gamemaster.model.data.Game
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 
@@ -213,7 +214,7 @@ fun VoteComponent(viewModel: GameViewModel) {
 @Preview(showBackground = true, name = "VoteComponent Preview")
 @Composable
 fun VoteComponentPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         VoteComponent(viewModel = GameViewModel()) // Use a default or mock instance
     }
 }

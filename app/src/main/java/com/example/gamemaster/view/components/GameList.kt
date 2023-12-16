@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.gamemaster.model.data.Game
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewModel
 
 @Composable
@@ -17,7 +18,7 @@ fun GameList(games: List<Game>,viewModel: GameViewModel) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         items(games) {
             GameItem(it,viewModel = viewModel)
@@ -28,7 +29,7 @@ fun GameList(games: List<Game>,viewModel: GameViewModel) {
 @Preview(showBackground = true, name = "GameList Preview")
 @Composable
 fun GameListPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         GameList(games = GameData.dummyGames, viewModel = GameViewModel())
     }
 }

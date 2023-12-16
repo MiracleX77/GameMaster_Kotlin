@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 
@@ -55,7 +56,7 @@ fun BottomAppBar(viewModel: GameViewModel){
 @Preview(showBackground = true, name = "BottomAppBar Preview")
 @Composable
 fun BottomAppBarPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         BottomAppBar(viewModel = GameViewModel())
     }
 }

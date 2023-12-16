@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 
@@ -174,7 +175,7 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
 @Preview(showBackground = true, name = "SelectVoteComponent Preview")
 @Composable
 fun SearchAndFilterBarPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         SearchAndFilterBar(viewModel = GameViewModel())
     }
 }

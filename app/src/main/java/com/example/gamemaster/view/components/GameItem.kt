@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.gamemaster.model.data.Game
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 
@@ -61,7 +62,7 @@ fun GameItem(game: Game,viewModel: GameViewModel) {
 @Preview(showBackground = true, name = "GameItem Preview")
 @Composable
 fun GameItemPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         GameItem(game = GameData.dummyGames[0],viewModel = GameViewModel())
     }
 }

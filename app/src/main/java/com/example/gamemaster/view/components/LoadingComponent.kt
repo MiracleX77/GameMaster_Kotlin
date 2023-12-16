@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewModel
 
 @Composable
@@ -25,7 +26,7 @@ fun LoadingComponent(){
 @Preview(showBackground = true, name = "LoadingComponent Preview")
 @Composable
 fun LoadingComponentPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         LoadingComponent()
     }
 }

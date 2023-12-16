@@ -14,6 +14,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 
@@ -61,7 +62,7 @@ fun TopAppBar(viewModel: GameViewModel){
 @Preview(showBackground = true, name = "TopAppBar Preview")
 @Composable
 fun TopAppBarPreview() {
-    MaterialTheme {
+    GameMasterTheme(darkTheme = true) {
         TopAppBar(viewModel = GameViewModel()) // Use a default or mock instance
     }
 }
