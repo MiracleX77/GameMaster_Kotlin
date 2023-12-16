@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gamemaster.model.data.Game
@@ -205,5 +207,13 @@ fun VoteComponent(viewModel: GameViewModel) {
         {
             Text(text = "Start", fontSize = 20.sp)
         }
+    }
+}
+
+@Preview(showBackground = true, name = "VoteComponent Preview")
+@Composable
+fun VoteComponentPreview() {
+    MaterialTheme {
+        VoteComponent(viewModel = GameViewModel()) // Use a default or mock instance
     }
 }

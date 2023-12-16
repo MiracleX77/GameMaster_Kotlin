@@ -24,7 +24,9 @@ import com.example.gamemaster.model.data.GameDetail
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
@@ -157,5 +159,12 @@ fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
             Spacer(Modifier.height(80.dp))
         }
     }
+}
 
+@Preview(showBackground = true, name = "GameDetail Preview")
+@Composable
+fun GameDetailPreview() {
+    MaterialTheme {
+        GameDetail(viewModel = GameViewModel(), game_detail = GameData.dummyDetail)
+    }
 }
