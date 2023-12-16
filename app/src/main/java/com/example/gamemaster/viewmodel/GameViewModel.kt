@@ -1,5 +1,9 @@
 package com.example.gamemaster.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +19,12 @@ class GameViewModel : ViewModel() {
     val viewState:LiveData<GameViewState> = _viewState
     private var allGames = listOf<Game>()
     private var voteGame = listOf<Game>()
-    private var selectedGame = listOf<Game>()
+    private var selectedGame = arrayListOf<Game>()
+    var round = -1
+    var of_round = -1
+    var n_of_round = -1
+    var n_round = -1
+
 
     fun processIntent(intent: GameViewIntent):Unit{
         when(intent){
@@ -25,6 +34,7 @@ class GameViewModel : ViewModel() {
             is GameViewIntent.DetailGame -> detailGame(intent.id)
             is GameViewIntent.VoteGame -> voteGame()
             is GameViewIntent.StartVoteGame->startVoteGame(intent.platforms,intent.tags,intent.round)
+            is GameViewIntent.SelectedVoteGame->selectVoteGame(intent.game)
         }
     }
 
@@ -45,14 +55,12 @@ class GameViewModel : ViewModel() {
             }
         }
     }
-
     private fun searchGames(query: String){
         val filteredGames = allGames.filter { game ->
             game.title.contains(query, ignoreCase = true)
         }
         _viewState.value = if (filteredGames.isEmpty()) GameViewState.Empty else GameViewState.Success(filteredGames)
     }
-
     private fun filterGames(type:String,query: String){
         viewModelScope.launch {
             try {
@@ -92,7 +100,6 @@ class GameViewModel : ViewModel() {
         }
 
     }
-
     private fun detailGame(game_id:String) {
         viewModelScope.launch {
             try {
@@ -105,11 +112,10 @@ class GameViewModel : ViewModel() {
             }
         }
     }
-
     private fun voteGame(){
         _viewState.value = GameViewState.VoteGame
     }
-    private fun startVoteGame(platforms:String,tags:String,round:String){
+    private fun startVoteGame(platforms:String,tags:String,c_round:String){
         viewModelScope.launch {
             try{
                 _viewState.value = GameViewState.Loading
@@ -123,16 +129,48 @@ class GameViewModel : ViewModel() {
                     GameApi.getGamesByTagsAndPlatform(tags,platforms)
                 }
                 println(allGames.count())
-                if(allGames.count()<round.toInt()){
+                if(allGames.count()<c_round.toInt()){
                     _viewState.value = GameViewState.Error("Count of Game less than Round")
                 }else{
-                    voteGame=allGames.shuffled().take(round.toInt())
-                    _viewState.value = GameViewState.SelectVoteGame(voteGame[0], voteGame[1],2,round.toInt())
+                    round = c_round.toInt()
+                    of_round = c_round.toInt()/2
+                    n_round = 1
+                    n_of_round = 1
+                    selectedGame.clear()
+                    voteGame=allGames.shuffled().take(c_round.toInt())
+                    _viewState.value = GameViewState.SelectVoteGame(voteGame[0], voteGame[1],n_round,of_round)
                 }
             } catch (e:Exception){
                 _viewState.value = GameViewState.Error(e.message ?: "Unknown error")
             }
         }
+    }
+    private fun selectVoteGame(game:Game){
+        if(n_of_round<of_round){
+            selectedGame.add(game)
+            n_round+=1
+            n_of_round+=1
+        } else {
+            selectedGame.add(game)
+            voteGame = selectedGame.toList()
+            selectedGame.clear()
+            n_of_round = 1
+            of_round /= 2
+            n_round+=1
+        }
+        if(of_round == 0){
+            println(selectedGame)
+        }
+        else{
+            println(voteGame.count())
+            println(selectedGame)
+            println(n_of_round)
+            println(of_round)
+            println(n_of_round*2-2)
+            println(n_of_round*2-1)
+            _viewState.value = GameViewState.SelectVoteGame(voteGame[n_of_round*2-2], voteGame[n_of_round*2-1],n_of_round,of_round)
+        }
+
 
     }
 }

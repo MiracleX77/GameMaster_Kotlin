@@ -154,7 +154,7 @@ fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
                 lineHeight = 17.sp,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
-            Spacer(Modifier.height(30.dp))
+            Spacer(Modifier.height(80.dp))
         }
     }
 

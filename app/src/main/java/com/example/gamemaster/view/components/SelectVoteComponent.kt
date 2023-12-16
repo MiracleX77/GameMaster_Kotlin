@@ -24,7 +24,7 @@ import com.example.gamemaster.viewmodel.GameViewModel
 fun SelectVoteComponent(viewModel: GameViewModel, game1: Game,game2:Game,round:Int,n_round:Int) {
     Column {
         Spacer(Modifier.height(70.dp))
-        Text(text = "Round $round of $n_round", fontSize = 30.sp, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally))
+        Text(text = "Rounds of ${n_round*2} - $round/$n_round", fontSize = 30.sp, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally))
         GameVoteItem(game1,viewModel)
         Text(text = "VS", fontSize = 40.sp, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally))
         GameVoteItem(game2,viewModel)
@@ -38,7 +38,7 @@ fun GameVoteItem(game: Game,viewModel: GameViewModel) {
             .padding(8.dp)
             .fillMaxWidth()
             .clickable {
-                viewModel.processIntent(GameViewIntent.DetailGame(game.id.toString()))
+                viewModel.processIntent(GameViewIntent.SelectedVoteGame(game))
             },
 
         ) {
