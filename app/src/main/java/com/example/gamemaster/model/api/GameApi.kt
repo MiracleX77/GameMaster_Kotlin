@@ -9,6 +9,7 @@ import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.util.Platform
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
@@ -39,6 +40,11 @@ object GameApi {
     }
     suspend fun getGamesBySorted(query: String): List<Game>{
         val url = BASE_URL+"s?sort-by=$query"
+        val response:HttpResponse = apiClient.get(url)
+        return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
+    }
+    suspend fun getGamesByTagsAndPlatform(tags:String,platform: String): List<Game>{
+        val url = BASE_URL+"s?platform=$platform&category=$tags"
         val response:HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
     }

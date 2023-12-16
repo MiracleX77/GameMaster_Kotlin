@@ -10,10 +10,14 @@ import androidx.compose.runtime.getValue
 import com.example.gamemaster.viewmodel.GameViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gamemaster.view.components.BottomAppBar
+import com.example.gamemaster.view.components.ErrorComponent
 import com.example.gamemaster.view.components.GameDetail
 import com.example.gamemaster.view.components.LoadingComponent
+import com.example.gamemaster.view.components.SelectVoteComponent
 import com.example.gamemaster.view.components.SuccessComponent
 import com.example.gamemaster.view.components.TopAppBar
+import com.example.gamemaster.view.components.VoteComponent
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewState
 
@@ -27,7 +31,11 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
     Scaffold(
         topBar = {
             TopAppBar(viewModel)
+        },
+        bottomBar = {
+            BottomAppBar(viewModel = viewModel)
         }
+        
     ) {
         when (val state = viewState) {
             is GameViewState.Loading -> LoadingComponent()
@@ -43,8 +51,10 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
                 val gameDetail = state.game
                 GameDetail(viewModel = viewModel, game_detail = gameDetail)
             }
+            is GameViewState.VoteGame -> VoteComponent(viewModel = viewModel)
+            is GameViewState.SelectVoteGame -> SelectVoteComponent(viewModel=viewModel, game1 = state.game1, game2 = state.game2, round = state.round, n_round = state.n_round)
             is GameViewState.Empty -> EmptyScreen()
-            is GameViewState.Error -> ErrorScreen(message = state.message)
+            is GameViewState.Error -> ErrorComponent(message = state.message,viewModel = viewModel)
             else -> {}
         }
     }
@@ -61,10 +71,6 @@ fun EmptyScreen() {
     Text("No games available")
 }
 
-@Composable
-fun ErrorScreen(message: String) {
-    // แสดงข้อความผิดพลาด
-    Text("Error: $message")
-}
+
 
 

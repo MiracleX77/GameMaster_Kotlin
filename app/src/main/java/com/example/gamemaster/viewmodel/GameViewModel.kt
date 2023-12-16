@@ -14,6 +14,8 @@ class GameViewModel : ViewModel() {
     private val _viewState = MutableLiveData<GameViewState>(GameViewState.Loading)
     val viewState:LiveData<GameViewState> = _viewState
     private var allGames = listOf<Game>()
+    private var voteGame = listOf<Game>()
+    private var selectedGame = listOf<Game>()
 
     fun processIntent(intent: GameViewIntent):Unit{
         when(intent){
@@ -21,6 +23,8 @@ class GameViewModel : ViewModel() {
             is GameViewIntent.SearchGame -> searchGames(intent.query)
             is GameViewIntent.FilterGame -> filterGames(intent.type,intent.query)
             is GameViewIntent.DetailGame -> detailGame(intent.id)
+            is GameViewIntent.VoteGame -> voteGame()
+            is GameViewIntent.StartVoteGame->startVoteGame(intent.platforms,intent.tags,intent.round)
         }
     }
 
@@ -100,5 +104,35 @@ class GameViewModel : ViewModel() {
                 _viewState.value = GameViewState.Error(e.message ?: "Unknown error")
             }
         }
+    }
+
+    private fun voteGame(){
+        _viewState.value = GameViewState.VoteGame
+    }
+    private fun startVoteGame(platforms:String,tags:String,round:String){
+        viewModelScope.launch {
+            try{
+                _viewState.value = GameViewState.Loading
+                allGames = if(platforms == "all" && tags == "all"){
+                    GameApi.getAllGame()
+                } else if (platforms == "all"){
+                    GameApi.getGamesByTags(tags)
+                } else if (tags == "all"){
+                    GameApi.getGamesByPlatform(tags)
+                }else{
+                    GameApi.getGamesByTagsAndPlatform(tags,platforms)
+                }
+                println(allGames.count())
+                if(allGames.count()<round.toInt()){
+                    _viewState.value = GameViewState.Error("Count of Game less than Round")
+                }else{
+                    voteGame=allGames.shuffled().take(round.toInt())
+                    _viewState.value = GameViewState.SelectVoteGame(voteGame[0], voteGame[1],2,round.toInt())
+                }
+            } catch (e:Exception){
+                _viewState.value = GameViewState.Error(e.message ?: "Unknown error")
+            }
+        }
+
     }
 }
