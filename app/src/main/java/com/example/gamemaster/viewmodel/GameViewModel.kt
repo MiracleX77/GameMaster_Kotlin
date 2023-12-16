@@ -73,6 +73,14 @@ class GameViewModel : ViewModel() {
                         _viewState.value = GameViewState.FilteredGames(filteredGames)
                     }
                 }
+                if (type == "sort"){
+                    val filteredGames = GameApi.getGamesBySorted(query)
+                    if (filteredGames.isEmpty()) {
+                        _viewState.value = GameViewState.Empty
+                    } else {
+                        _viewState.value = GameViewState.FilteredGames(filteredGames)
+                    }
+                }
             }
             catch (e:Exception){
                 _viewState.value = GameViewState.Error(e.message ?: "Unknown error")

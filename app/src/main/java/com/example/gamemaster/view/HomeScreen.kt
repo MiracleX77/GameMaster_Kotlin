@@ -26,7 +26,7 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
 
     Scaffold(
         topBar = {
-            /*TopAppBar()*/
+            TopAppBar(viewModel)
         }
     ) {
         when (val state = viewState) {

@@ -37,6 +37,11 @@ object GameApi {
         val response:HttpResponse = apiClient.get(url)
         return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
     }
+    suspend fun getGamesBySorted(query: String): List<Game>{
+        val url = BASE_URL+"s?sort-by=$query"
+        val response:HttpResponse = apiClient.get(url)
+        return Json.decodeFromString(ListSerializer(Game.serializer()), response.bodyAsText())
+    }
 
     suspend fun getGameById(id: String): GameDetail {
         val url = "$BASE_URL?id=$id"

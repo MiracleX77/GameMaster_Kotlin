@@ -38,10 +38,26 @@ import com.example.gamemaster.viewmodel.GameViewModel
 fun SearchAndFilterBar(viewModel: GameViewModel) {
     var searchText by remember { mutableStateOf("") }
 
-    var expanded by remember { mutableStateOf(false) }
+    var expanded_filter by remember { mutableStateOf(false) }
+    var expanded_sort by remember{ mutableStateOf(false) }
     var selectedPlatform by remember { mutableStateOf("all") }
+    var selectedSorted by remember { mutableStateOf("all") }
     val platforms = listOf("all", "pc", "browser")
-    val tags = listOf("mmorpg","shooter","strategy","moba","racing","sports","open-world","survival","turn-based","battle-royale","fantasy","action-rpg")
+    val sorted = listOf("release-date", "popularity", "alphabetical", "relevance")
+    val tags = listOf(
+        "mmorpg",
+        "shooter",
+        "strategy",
+        "moba",
+        "racing",
+        "sports",
+        "open-world",
+        "survival",
+        "turn-based",
+        "battle-royale",
+        "fantasy",
+        "action-rpg"
+    )
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -49,16 +65,15 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 5.dp)
     ) {
-        // ปุ่ม Sort
         Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
-            TextButton(onClick = { expanded = true }) {
+            TextButton(onClick = { expanded_filter = true }) {
                 Text("Filter")
                 Icon(Icons.Filled.ArrowDropDown, contentDescription = "Select Filter")
             }
 
             DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = expanded_filter,
+                onDismissRequest = { expanded_filter = false }
             ) {
                 Text("Platform", modifier = Modifier.padding(vertical = 4.dp))
                 Divider()
@@ -69,8 +84,13 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
                             .fillMaxWidth()
                             .clickable {
                                 selectedPlatform = platform
-                                expanded = false
-                                viewModel.processIntent(GameViewIntent.FilterGame("platform", platform))
+                                expanded_filter = false
+                                viewModel.processIntent(
+                                    GameViewIntent.FilterGame(
+                                        "platform",
+                                        platform
+                                    )
+                                )
                             }
                             .padding(vertical = 3.dp)  // Reduced padding
                     ) {
@@ -87,7 +107,7 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
                             .fillMaxWidth()
                             .clickable {
                                 selectedPlatform = tags
-                                expanded = false
+                                expanded_filter = false
                                 viewModel.processIntent(GameViewIntent.FilterGame("tags", tags))
                             }
                             .padding(vertical = 3.dp)  // Reduced padding
@@ -118,26 +138,35 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
 
         Spacer(Modifier.width(8.dp)) // ระยะห่างระหว่างแถบค้นหาและปุ่ม
 
-        TextButton(
-            onClick = { /* Handle sort */ },
-            modifier = Modifier.weight(1f),
-            // ปรับปุ่มให้มีพื้นหลังและมุมที่มน
-            shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
-            contentPadding = PaddingValues()
-        ) {
-            Icon(Icons.Filled.ArrowDropDown, contentDescription = "Sort")
-            Text("Sort")
+
+        Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+            TextButton(onClick = { expanded_sort = true }) {
+                Text("Sort")
+                Icon(Icons.Filled.ArrowDropDown, contentDescription = "Sort")
+            }
+
+            DropdownMenu(
+                expanded = expanded_sort,
+                onDismissRequest = { expanded_sort = false }
+            ) {
+                sorted.forEach { sorted ->
+                    // Custom item
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                selectedSorted = sorted
+                                expanded_sort = false
+                                viewModel.processIntent(GameViewIntent.FilterGame("sort", sorted))
+                            }
+                            .padding(vertical = 3.dp, horizontal = 3.dp)  // Reduced padding
+                    ) {
+                        Text(text = sorted, modifier = Modifier.padding(start = 16.dp))
+                    }
+                }
+
+            }
         }
-
     }
 }
 
-@Composable
-fun DropdownMenuCustomItem(
-    text: String,
-    onSelect: () -> Unit
-) {
-    TextButton(onClick = onSelect, contentPadding = PaddingValues(1.dp)) {
-        Text(text)
-    }
-}
