@@ -5,11 +5,21 @@
       <entry key="GreetingPreview">
         <State />
       </entry>
-      <entry key="MainActivity">
-        <State />
-      </entry>
       <entry key="app">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\chids\.android\avd\Pixel_4_XL_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2023-12-16T21:05:18.463711200Z" />
+        </State>
       </entry>
     </value>
   </component>
