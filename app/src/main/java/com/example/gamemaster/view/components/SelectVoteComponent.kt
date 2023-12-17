@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +38,9 @@ fun SelectVoteComponent(viewModel: GameViewModel, game1: Game,game2:Game,round:I
 @Composable
 fun GameVoteItem(game: Game,viewModel: GameViewModel) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.onSecondary,
+        ),
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
@@ -46,7 +50,7 @@ fun GameVoteItem(game: Game,viewModel: GameViewModel) {
 
         ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = game.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = game.title, fontSize = 24.sp, fontWeight = FontWeight.Bold,modifier = Modifier.align(Alignment.CenterHorizontally))
             Spacer(modifier = Modifier.height(8.dp))
             Image(
                 painter = rememberAsyncImagePainter(game.thumbnail),

@@ -120,16 +120,14 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
             }
         }
 
-        Spacer(Modifier.width(8.dp)) // ระยะห่างระหว่างปุ่มและแถบค้นหา
-
-        // แถบค้นหา
+        Spacer(Modifier.width(8.dp))
         OutlinedTextField(
             value = searchText,
             onValueChange = { searchText = it },
             placeholder = { Text("Search") },
             modifier = Modifier
                 .weight(4f)
-                .height(50.dp), // กำหนดความสูงที่ชัดเจน
+                .height(50.dp),
             singleLine = true,
             trailingIcon = {
                 IconButton(onClick = { viewModel.processIntent(GameViewIntent.SearchGame(searchText)) }) {
@@ -138,7 +136,7 @@ fun SearchAndFilterBar(viewModel: GameViewModel) {
             }
         )
 
-        Spacer(Modifier.width(8.dp)) // ระยะห่างระหว่างแถบค้นหาและปุ่ม
+        Spacer(Modifier.width(8.dp))
 
 
         Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {

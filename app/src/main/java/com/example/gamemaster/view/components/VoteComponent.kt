@@ -23,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +62,8 @@ fun VoteComponent(viewModel: GameViewModel) {
     var selected_platforms by remember { mutableStateOf("all") }
     var selected_tags by remember { mutableStateOf("all") }
     var selected_round by remember { mutableStateOf("64") }
+    val focusManager = LocalFocusManager.current
+
 
     Column {
         Spacer(Modifier.height(130.dp))
@@ -94,7 +98,9 @@ fun VoteComponent(viewModel: GameViewModel) {
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded_platforms) },
-                    modifier = Modifier.menuAnchor()
+                    modifier = Modifier.menuAnchor().onFocusChanged { focusState ->
+                            if (focusState.isFocused) focusManager.clearFocus()
+                        }
                 )
                 ExposedDropdownMenu(
                     expanded = expanded_platforms,
@@ -135,7 +141,9 @@ fun VoteComponent(viewModel: GameViewModel) {
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded_tags) },
-                    modifier = Modifier.menuAnchor()
+                    modifier = Modifier.menuAnchor().onFocusChanged { focusState ->
+                        if (focusState.isFocused) focusManager.clearFocus()
+                    }
                 )
                 ExposedDropdownMenu(
                     expanded = expanded_tags,
@@ -176,7 +184,9 @@ fun VoteComponent(viewModel: GameViewModel) {
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded_round) },
-                    modifier = Modifier.menuAnchor()
+                    modifier = Modifier.menuAnchor().onFocusChanged { focusState ->
+                        if (focusState.isFocused) focusManager.clearFocus()
+                    }
                 )
                 ExposedDropdownMenu(
                     expanded = expanded_round,

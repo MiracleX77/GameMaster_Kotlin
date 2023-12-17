@@ -11,7 +11,7 @@ sealed class GameViewState {
 
     data object VoteGame: GameViewState()
     data class SelectVoteGame(val game1 :Game,val game2 :Game,val round:Int,val n_round:Int): GameViewState()
-
+    data class ResultVoteGame(val game:Game):GameViewState()
     data object Empty : GameViewState()
     data class  Error(val message: String) :GameViewState()
 }

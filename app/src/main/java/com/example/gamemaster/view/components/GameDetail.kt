@@ -2,8 +2,10 @@ package com.example.gamemaster.view.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +26,7 @@ import com.example.gamemaster.model.data.GameDetail
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,23 +53,27 @@ fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
                 text = game_detail.title,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 20.dp)
             )
         }
         item {
+            Spacer(Modifier.height(10.dp))
             Text(
                 text = "Developer: ${game_detail.developer}",
-                fontSize = 16.sp,
+                color = Color.LightGray,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Text(text = "Publisher: ${game_detail.publisher}",
-                fontSize = 16.sp,
+                fontSize = 14.sp,
+                color = Color.LightGray,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Text(text = "ReleaseDate: ${game_detail.releaseDate}",
-                fontSize = 16.sp,
+                fontSize = 14.sp,
+                color = Color.LightGray,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -81,11 +88,10 @@ fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
             )
             Spacer(Modifier.height(20.dp))
             Text(
-                text =  "Tags: ${game_detail.genre}",
+                text =  "${game_detail.genre}",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+                modifier = Modifier.padding(horizontal = 16.dp).border(2.dp, Color.LightGray, RoundedCornerShape(5.dp)).padding(4.dp))
         }
         items(game_detail.screenshots) { screenshot ->
             Image(
@@ -149,13 +155,23 @@ fun GameDetail(viewModel: GameViewModel, game_detail:GameDetail ){
                 lineHeight = 17.sp,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
-            Text(
-                text =  "Storage : ${game_detail.minimumSystemRequirements.storage}",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                lineHeight = 17.sp,
-                modifier = Modifier.padding(horizontal = 32.dp)
-            )
+            Row{
+                Text(
+                    text =  "Storage : ",
+                    fontSize = 14.sp,
+                    color = Color.LightGray,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 17.sp,
+                    modifier = Modifier.padding(start = 32.dp)
+                )
+                Text(
+                    text = game_detail.minimumSystemRequirements.storage,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 17.sp,
+                )
+            }
+
             Spacer(Modifier.height(80.dp))
         }
     }

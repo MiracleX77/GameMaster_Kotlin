@@ -159,7 +159,7 @@ class GameViewModel : ViewModel() {
             n_round+=1
         }
         if(of_round == 0){
-            println(selectedGame)
+            _viewState.value = GameViewState.ResultVoteGame(voteGame[0])
         }
         else{
             println(voteGame.count())

@@ -23,9 +23,9 @@ private val DarkColorScheme = darkColorScheme(
     background = Color.Black,
     surface = Color(0xFF121212), // Dark surface color
     onPrimary = Color.Black, // Color for text on primary color background
-    onSecondary = Color.Black, // Color for text on secondary color background
+    onSecondary = Color.DarkGray, // Color for text on secondary color background
     onTertiary = Color.Black, // Color for text on tertiary color background
-    onBackground = Color.White, // Color for text on background color
+    onBackground = Color.DarkGray, // Color for text on background color
     onSurface = Color.White,
 
 )

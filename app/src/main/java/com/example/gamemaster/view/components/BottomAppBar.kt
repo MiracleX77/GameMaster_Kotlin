@@ -32,7 +32,10 @@ import com.example.gamemaster.viewmodel.GameViewModel
 fun BottomAppBar(viewModel: GameViewModel){
     var selectedItem by remember { mutableIntStateOf(0) }
 
-    NavigationBar {
+    NavigationBar (
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = MaterialTheme.colorScheme.onPrimary
+    ){
         NavigationBarItem(selected = selectedItem == 0
             , onClick = {
                 selectedItem = 0
@@ -47,7 +50,7 @@ fun BottomAppBar(viewModel: GameViewModel){
                 viewModel.processIntent(GameViewIntent.VoteGame)
                         }
             , icon = { Icon(Icons.Filled.Share,contentDescription = "vs") }
-            , label = {Text("VS")}
+            , label = {Text("Vote Battle")}
         )
 
     }

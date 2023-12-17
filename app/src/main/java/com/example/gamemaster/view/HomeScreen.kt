@@ -14,6 +14,7 @@ import com.example.gamemaster.view.components.BottomAppBar
 import com.example.gamemaster.view.components.ErrorComponent
 import com.example.gamemaster.view.components.GameDetail
 import com.example.gamemaster.view.components.LoadingComponent
+import com.example.gamemaster.view.components.ResultVoteComponent
 import com.example.gamemaster.view.components.SelectVoteComponent
 import com.example.gamemaster.view.components.SuccessComponent
 import com.example.gamemaster.view.components.TopAppBar
@@ -53,6 +54,7 @@ fun GameListScreen(viewModel: GameViewModel = viewModel()) {
             }
             is GameViewState.VoteGame -> VoteComponent(viewModel = viewModel)
             is GameViewState.SelectVoteGame -> SelectVoteComponent(viewModel=viewModel, game1 = state.game1, game2 = state.game2, round = state.round, n_round = state.n_round)
+            is GameViewState.ResultVoteGame -> ResultVoteComponent(viewModel = viewModel, game = state.game)
             is GameViewState.Empty -> EmptyScreen()
             is GameViewState.Error -> ErrorComponent(message = state.message,viewModel = viewModel)
             else -> {}
