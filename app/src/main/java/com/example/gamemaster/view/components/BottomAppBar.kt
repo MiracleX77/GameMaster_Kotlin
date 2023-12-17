@@ -1,5 +1,6 @@
 package com.example.gamemaster.view.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
@@ -20,9 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.gamemaster.R
 import com.example.gamemaster.ui.theme.GameMasterTheme
 import com.example.gamemaster.viewmodel.GameViewIntent
 import com.example.gamemaster.viewmodel.GameViewModel
@@ -49,7 +54,9 @@ fun BottomAppBar(viewModel: GameViewModel){
                 selectedItem = 1
                 viewModel.processIntent(GameViewIntent.VoteGame)
                         }
-            , icon = { Icon(Icons.Filled.Share,contentDescription = "vs") }
+            , icon = {  Icon(painter = painterResource(id = R.drawable.versus_icon),
+                contentDescription = "vs",
+                modifier = Modifier.size(24.dp) )}
             , label = {Text("Vote Battle")}
         )
 
